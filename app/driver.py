@@ -65,9 +65,9 @@ def drive_teletype(urls: List[str]):
 
 def drive():
     urls = get_post_urls(1)
+    drive_careerspace(urls.careerspace)
     drive_hh(urls.hh)
     drive_teletype(urls.teletype)
-    drive_careerspace(urls.careerspace)
 
 
 def test():
