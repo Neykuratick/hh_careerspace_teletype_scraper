@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  scraper:
+    build: ./
+    env_file:
+      - .env
+    command: poetry run python main.py
+    container_name: scraper
+    volumes:
+        - ./app:/code/app
