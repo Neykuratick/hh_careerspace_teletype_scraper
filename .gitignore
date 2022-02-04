@@ -1,0 +1,9 @@
+.idea
+.venv
+.pyc
+__pycache__
+mongodb-master-data
+prod.docker-compose.yml
+local.docker-compose.yml
+secret
+.env
