@@ -1,13 +1,17 @@
 import logging
 from config import config
 from app.driver import drive
-
+import schedule
 logging.basicConfig(level=config.LOGGING_LEVEL)
 
 
-def run():
-    drive()
+def main():
+    schedule.every(86400).seconds.do(drive)
+    schedule.run_all(delay_seconds=10)
+
+    while True:
+        schedule.run_pending()
 
 
 if __name__ == "__main__":
-    run()
+    main()

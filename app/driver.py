@@ -28,12 +28,11 @@ def upload_to_spreadsheet(vacancy: Vacancy, sheet: Sheet):
         last_row = sheet.append_column(sheet.columns.contacts, vacancy.contacts)
         last_row = sheet.append_column(sheet.columns.salary, vacancy.salary)
     except APIError as e:
-        if 'exceeded' in str(e):
-            logger.warning(e)
-            time.sleep(61)
+        logger.warning(e)
+        time.sleep(61)
 
-            sheet.delete_row(last_row) if last_row > 0 else None
-            upload_to_spreadsheet(vacancy, sheet)
+        sheet.delete_row(last_row) if last_row > 0 else None
+        upload_to_spreadsheet(vacancy, sheet)
 
 
 def drive_careerspace(urls: List[str]):
