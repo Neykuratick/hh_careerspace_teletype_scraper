@@ -8,6 +8,7 @@ class Config(BaseSettings):
     SPREADSHEET_URL: str
     VK_TOKEN: str
     DEFAULT_FOR_EMPTY: str
+    POSTS_COUNT: Optional[int] = Field(default=1)
 
     COLUMN_ALIAS_URL: Optional[str] = Field(default='url')
     COLUMN_ALIAS_NAME: Optional[str] = Field(default='name')

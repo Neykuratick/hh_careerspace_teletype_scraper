@@ -9,7 +9,7 @@ request_url = "https://api.vk.com/method/wall.search?" \
               "&domain=hse_career" \
               "&query=%23вакансиидня" \
               "&owners_only=0" \
-              "&count=10" \
+              f"&count={config.POSTS_COUNT}" \
               f"&access_token={config.VK_TOKEN}" \
               "&v=5.131"
 

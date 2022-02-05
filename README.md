@@ -13,3 +13,7 @@
 `COLUMN_ALIAS_FULLTEXT=full_text `<br>
 `COLUMN_ALIAS_CONTACTS=contacts `<br>
 `COLUMN_ALIAS_SALARY=salary` <br>
+
+Дополнительные конфиги и их значения по умолчанию: <br>
+```POSTS_COUNT=0``` Количество постов для парсинга, начиная с 0-го <br>
+```LOGGING_LEVEL=logging.DEBUG``` Уровень логгирования <br>

@@ -63,10 +63,14 @@ def drive_teletype(urls: List[str]):
 
 
 def drive():
-    urls = get_post_urls(1)
-    drive_careerspace(urls.careerspace)
-    drive_hh(urls.hh)
-    drive_teletype(urls.teletype)
+    for i in range(config.POSTS_COUNT):
+        logger.info(f"Scraping post index: {i}")
+        urls = get_post_urls(i)
+        drive_careerspace(urls.careerspace)
+        drive_hh(urls.hh)
+        drive_teletype(urls.teletype)
+
+    logger.info("Done scraping")
 
 
 def test():
