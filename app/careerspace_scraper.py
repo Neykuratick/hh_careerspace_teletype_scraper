@@ -25,15 +25,14 @@ class CareerSpace:
         return "".join(re.findall("[0-9]+", raw_price))
 
     def __get_name(self) -> str:
-        result = self.__soup.find("h3", {"class": "j-d-h__title"})  # TODO remove white spaces
-        return result.text
+        result = self.__soup.find("h3", {"class": "j-d-h__title"})
+        return ' '.join(result.text.split())  # removes multiple spaces
 
     def __get_info(self) -> str:
         result = self.__soup.find("div", {"class": "j-d-desc"})
         return result.text
 
     def __get_contacts(self) -> str:
-        # TODO https://careerspace.app/job/27129?utm_source=HSE returns undefined
 
         results = self.__soup.find_all("script")
         for result in results:
