@@ -76,6 +76,7 @@ def drive():
 
         urls = get_post_urls(i)
         sheet = Sheet(config.SPREADSHEET_URL)
+        sheet.check_integrity()
 
         drive_careerspace(urls.careerspace, sheet)
         drive_hh(urls.hh, sheet)
