@@ -62,6 +62,22 @@ def drive_teletype(urls: List[str]):
         upload_to_spreadsheet(vacancy, sheet)
 
 
+def drive_other(urls: List[str]):
+    sheet = Sheet(config.SPREADSHEET_URL)
+
+    for url in urls:
+        vacancy = Vacancy(
+            url=url,
+            name=config.DEFAULT_FOR_EMPTY,
+            info=config.DEFAULT_FOR_EMPTY,
+            full_text=config.DEFAULT_FOR_EMPTY,
+            contacts=config.DEFAULT_FOR_EMPTY,
+            salary=config.DEFAULT_FOR_EMPTY
+        )
+
+        upload_to_spreadsheet(vacancy, sheet)
+
+
 def drive():
     for i in range(config.POSTS_COUNT):
         logger.info(f"Scraping post index: {i}")
@@ -69,6 +85,7 @@ def drive():
         drive_careerspace(urls.careerspace)
         drive_hh(urls.hh)
         drive_teletype(urls.teletype)
+        drive_other(urls.other)
 
     logger.info("Done scraping")
 

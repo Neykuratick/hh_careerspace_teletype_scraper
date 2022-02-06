@@ -15,12 +15,26 @@ request_url = "https://api.vk.com/method/wall.search?" \
 
 
 def get_post_urls(post_index: int = 0) -> UrlList:
-    result: dict = requests.get(request_url).json()
+    result = requests.get(request_url).json()
+
     newest_post = result.get("response").get("items")[post_index].get("text")
     pre_list = re.findall("(?P<url>https?://[^\s]+)", newest_post)
+
+    teletype_list, careerspace_list, hh_list, other_list = [], [], [], []
+
+    for url in pre_list:
+        if 'teletype' in url:
+            teletype_list.append(url)
+        elif 'careerspace' in url:
+            careerspace_list.append(url)
+        elif 'hh' in url:
+            hh_list.append(url)
+        else:
+            other_list.append(url)
+
     return UrlList(
-        teletype=[url for url in pre_list if 'teletype' in url],
-        careerspace=[url for url in pre_list if 'careerspace' in url],
-        hh=[url for url in pre_list if 'hh' in url],
-        other=None
+        teletype=teletype_list,
+        careerspace=careerspace_list,
+        hh=hh_list,
+        other=other_list
     )
