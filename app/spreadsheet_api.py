@@ -5,9 +5,9 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from gspread import authorize, Worksheet
+from gspread import authorize
 
-from app.assets.modeller import Columns
+from app.models import Columns
 from config import config
 
 

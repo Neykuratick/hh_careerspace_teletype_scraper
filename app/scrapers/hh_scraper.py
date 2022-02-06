@@ -5,7 +5,7 @@ import re
 from bs4 import BeautifulSoup
 
 from config import config
-from app.assets.modeller import Vacancy
+from app.models import Vacancy
 
 logger = logging.getLogger(' HEADHUNTER ')
 logger.setLevel(level=config.LOGGING_LEVEL)

@@ -1,7 +1,7 @@
 import re
 import requests
 
-from app.assets.modeller import UrlList
+from app.models import UrlList
 from config import config
 
 request_url = "https://api.vk.com/method/wall.search?" \

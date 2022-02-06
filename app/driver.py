@@ -4,12 +4,12 @@ from typing import List
 
 from gspread.exceptions import APIError
 
-from app.assets.modeller import Vacancy
-from app.careerspace_scraper import CareerSpace
-from app.hh_scraper import HeadHunter
-from app.teletype_scraper import Teletype
-from app.assets.spreadsheet_api import Sheet
-from app.assets.utils import get_post_urls
+from app.models import Vacancy
+from app.scrapers.careerspace_scraper import CareerSpace
+from app.scrapers.hh_scraper import HeadHunter
+from app.scrapers.teletype_scraper import Teletype
+from app.spreadsheet_api import Sheet
+from app.utils import get_post_urls
 from config import config
 
 logger = logging.getLogger(' DRIVER ')
