@@ -22,7 +22,7 @@ class CareerSpace:
     def __get_salary(self) -> str:
         result = self.__soup.find("span", {"class": "price"})
         raw_price = result.text
-        return "".join(re.findall("[0-9]+", raw_price))
+        return "".join(re.findall("[0-9|-]+", raw_price))
 
     def __get_name(self) -> str:
         result = self.__soup.find("h3", {"class": "j-d-h__title"})
