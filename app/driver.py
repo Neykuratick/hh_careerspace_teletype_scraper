@@ -35,36 +35,28 @@ def upload_to_spreadsheet(vacancy: Vacancy, sheet: Sheet):
         upload_to_spreadsheet(vacancy, sheet)
 
 
-def drive_careerspace(urls: List[str]):
-    sheet = Sheet(config.SPREADSHEET_URL)
-
+def drive_careerspace(urls: List[str], sheet: Sheet):
     for url in urls:
         careerspace = CareerSpace(url)
         vacancy = careerspace.get_vacancy()
         upload_to_spreadsheet(vacancy, sheet)
 
 
-def drive_hh(urls: List[str]):
-    sheet = Sheet(config.SPREADSHEET_URL)
-
+def drive_hh(urls: List[str], sheet: Sheet):
     for url in urls:
         hh = HeadHunter(url)
         vacancy = hh.get_vacancy()
         upload_to_spreadsheet(vacancy, sheet)
 
 
-def drive_teletype(urls: List[str]):
-    sheet = Sheet(config.SPREADSHEET_URL)
-
+def drive_teletype(urls: List[str], sheet: Sheet):
     for url in urls:
         teletype = Teletype(url)
         vacancy = teletype.get_vacancy()
         upload_to_spreadsheet(vacancy, sheet)
 
 
-def drive_other(urls: List[str]):
-    sheet = Sheet(config.SPREADSHEET_URL)
-
+def drive_other(urls: List[str], sheet: Sheet):
     for url in urls:
         vacancy = Vacancy(
             url=url,
@@ -81,11 +73,14 @@ def drive_other(urls: List[str]):
 def drive():
     for i in range(config.POSTS_COUNT):
         logger.info(f"Scraping post index: {i}")
+
         urls = get_post_urls(i)
-        drive_careerspace(urls.careerspace)
-        drive_hh(urls.hh)
-        drive_teletype(urls.teletype)
-        drive_other(urls.other)
+        sheet = Sheet(config.SPREADSHEET_URL)
+
+        drive_careerspace(urls.careerspace, sheet)
+        drive_hh(urls.hh, sheet)
+        drive_teletype(urls.teletype, sheet)
+        drive_other(urls.other, sheet)
 
     logger.info("Done scraping")
 
