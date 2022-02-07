@@ -1,5 +1,6 @@
 import re
 import requests
+from datetime import datetime
 
 from app.models import UrlList
 from config import config
@@ -22,15 +23,16 @@ def get_post_urls(post_index: int = 0) -> UrlList:
 
     teletype_list, careerspace_list, hh_list, other_list = [], [], [], []
 
-    for url in pre_list:
-        if 'teletype' in url:
-            teletype_list.append(url)
-        elif 'careerspace' in url:
-            careerspace_list.append(url)
-        elif 'hh' in url:
-            hh_list.append(url)
-        else:
-            other_list.append(url)
+    if datetime.now().weekday() < 5:
+        for url in pre_list:
+            if 'teletype' in url:
+                teletype_list.append(url)
+            elif 'careerspace' in url:
+                careerspace_list.append(url)
+            elif 'hh' in url:
+                hh_list.append(url)
+            else:
+                other_list.append(url)
 
     return UrlList(
         teletype=teletype_list,
