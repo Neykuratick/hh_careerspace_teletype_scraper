@@ -1,3 +1,4 @@
+import logging
 import re
 from typing import Optional, List, Dict
 
@@ -6,6 +7,9 @@ from datetime import datetime
 
 from app.models import UrlList
 from config import config
+
+logger = logging.getLogger(' UTILS ')
+logger.setLevel(level=config.LOGGING_LEVEL)
 
 community_id = -278573
 
@@ -20,6 +24,7 @@ get_posts_url = "https://api.vk.com/method/wall.search?" \
 
 
 def new_post_available(posts: List[Dict]):
+    logger.info("Checking for new posts")
     last_post_id = posts[0].get("id")
 
     if config.LAST_POST_ID is None:
@@ -38,6 +43,7 @@ def get_post_urls(post_index: int = 0) -> UrlList:
     posts = result.get("response").get("items")
 
     if not new_post_available(posts):
+        logger.info("No new posts found")
         return UrlList(
             teletype=[],
             careerspace=[],
