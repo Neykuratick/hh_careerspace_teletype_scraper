@@ -1,5 +1,4 @@
 import logging
-import time
 
 from config import config
 from app.driver import drive
@@ -8,8 +7,7 @@ logging.basicConfig(level=config.LOGGING_LEVEL)
 
 
 def main():
-    schedule.every(86400).seconds.do(drive)
-    # schedule.every().day.at("15:01").do(drive)  # time is in UTC (UTC+3 15:20 -> 12:20 UTC)
+    schedule.every(30).minutes.do(drive)
     schedule.run_all(delay_seconds=10)
 
     while True:
@@ -17,8 +15,4 @@ def main():
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        print(e)
-        time.sleep(61)
+    main()

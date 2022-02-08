@@ -9,6 +9,7 @@ class Config(BaseSettings):
     VK_TOKEN: str
     DEFAULT_FOR_EMPTY: str
     POSTS_COUNT: Optional[int] = Field(default=50)
+    LAST_POST_ID: Optional[int] = Field(default=None)  # Айди последнего нужного поста в группе
 
     COLUMN_ALIAS_URL: Optional[str] = Field(default='url')
     COLUMN_ALIAS_NAME: Optional[str] = Field(default='name')

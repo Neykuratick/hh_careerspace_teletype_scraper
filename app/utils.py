@@ -1,24 +1,51 @@
 import re
+from typing import Optional, List, Dict
+
 import requests
 from datetime import datetime
 
 from app.models import UrlList
 from config import config
 
-request_url = "https://api.vk.com/method/wall.search?" \
-              "owner_id=-278573" \
-              "&domain=hse_career" \
-              "&query=%23вакансиидня" \
-              "&owners_only=0" \
-              f"&count={config.POSTS_COUNT}" \
-              f"&access_token={config.VK_TOKEN}" \
-              "&v=5.131"
+community_id = -278573
+
+get_posts_url = "https://api.vk.com/method/wall.search?" \
+                f"owner_id={community_id}" \
+                "&domain=hse_career" \
+                "&query=%23вакансиидня" \
+                "&owners_only=0" \
+                f"&count={config.POSTS_COUNT}" \
+                f"&access_token={config.VK_TOKEN}" \
+                "&v=5.131"
+
+
+def new_post_available(posts: List[Dict]):
+    last_post_id = posts[0].get("id")
+
+    if config.LAST_POST_ID is None:
+        config.LAST_POST_ID = last_post_id
+        return False
+
+    if config.LAST_POST_ID == last_post_id:
+        return False
+    else:
+        config.LAST_POST_ID = last_post_id
+        return True
 
 
 def get_post_urls(post_index: int = 0) -> UrlList:
-    result = requests.get(request_url).json()
+    result = requests.get(get_posts_url).json()
+    posts = result.get("response").get("items")
 
-    newest_post = result.get("response").get("items")[post_index].get("text")
+    if not new_post_available(posts):
+        return UrlList(
+            teletype=[],
+            careerspace=[],
+            hh=[],
+            other=[]
+        )
+
+    newest_post = posts[post_index].get("text")
     pre_list = re.findall("(?P<url>https?://[^\s]+)", newest_post)
 
     teletype_list, careerspace_list, hh_list, other_list = [], [], [], []
