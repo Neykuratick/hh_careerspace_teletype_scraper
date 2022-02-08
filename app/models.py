@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Field, validator
@@ -39,3 +40,4 @@ class Columns(BaseModel):
     full_text: int
     contacts: int
     salary: int
+    date_added: int

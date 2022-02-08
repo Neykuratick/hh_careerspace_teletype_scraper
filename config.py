@@ -16,6 +16,7 @@ class Config(BaseSettings):
     COLUMN_ALIAS_FULLTEXT: Optional[str] = Field(default='full_text')
     COLUMN_ALIAS_CONTACTS: Optional[str] = Field(default='contacts')
     COLUMN_ALIAS_SALARY: Optional[str] = Field(default='salary')
+    COLUMN_ALIAS_DATEADDED: Optional[str] = Field(default='date_added')
 
 
 config = Config()

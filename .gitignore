@@ -6,4 +6,4 @@ mongodb-master-data
 prod.docker-compose.yml
 local.docker-compose.yml
 secret
-.env
+.env_settings

@@ -12,6 +12,7 @@ pydantic = "^1.9.0"
 gspread = "^5.1.1"
 google-api-python-client = "^2.36.0"
 schedule = "^1.1.0"
+pytz = "^2021.3"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,6 +1,8 @@
 import logging
 import time
+import pytz
 from typing import List
+from datetime import datetime, timedelta
 
 from gspread.exceptions import APIError
 
@@ -19,7 +21,7 @@ logger.setLevel(level=config.LOGGING_LEVEL)
 def upload_to_spreadsheet(vacancy: Vacancy, sheet: Sheet):
     logger.debug(f"Deploying: {vacancy.url}")
     last_row = -1
-
+    timestamp = (datetime.now(tz=pytz.timezone("Europe/Moscow"))).strftime("%Y.%m.%d, %H:%M")
     try:
         last_row = sheet.append_column(sheet.columns.url, vacancy.url)
         last_row = sheet.append_column(sheet.columns.name, vacancy.name)
@@ -27,6 +29,7 @@ def upload_to_spreadsheet(vacancy: Vacancy, sheet: Sheet):
         last_row = sheet.append_column(sheet.columns.full_text, vacancy.full_text)
         last_row = sheet.append_column(sheet.columns.contacts, vacancy.contacts)
         last_row = sheet.append_column(sheet.columns.salary, vacancy.salary)
+        last_row = sheet.append_column(sheet.columns.date_added, timestamp)
     except APIError as e:
         logger.warning(e)
         time.sleep(61)
@@ -71,12 +74,19 @@ def drive_other(urls: List[str], sheet: Sheet):
 
 
 def drive():
-    for i in range(config.POSTS_COUNT):
+    # for i in range(config.POSTS_COUNT):
+    for i in range(config.POSTS_COUNT -1, -1, -1):
         logger.info(f"Scraping post index: {i}")
 
         urls = get_post_urls(i)
         sheet = Sheet(config.SPREADSHEET_URL)
         sheet.check_integrity()
+        # try:
+        #     sheet.check_integrity()
+        # except APIError as e:
+        #     logger.warning(e)
+        #     time.sleep(61)
+        #     sheet.check_integrity()
 
         drive_careerspace(urls.careerspace, sheet)
         drive_hh(urls.hh, sheet)

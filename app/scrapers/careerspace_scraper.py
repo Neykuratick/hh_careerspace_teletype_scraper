@@ -21,16 +21,27 @@ class CareerSpace:
 
     def __get_salary(self) -> str:
         result = self.__soup.find("span", {"class": "price"})
-        raw_price = result.text
-        return "".join(re.findall("[0-9|-]+", raw_price))
+        try:
+            return "".join(re.findall("[0-9|-]+", result.text))
+        except Exception as e:
+            logger.critical(e)
+            return config.DEFAULT_FOR_EMPTY
 
     def __get_name(self) -> str:
         result = self.__soup.find("h3", {"class": "j-d-h__title"})
-        return ' '.join(result.text.split())  # removes multiple spaces
+        try:
+            return ' '.join(result.text.split())  # removes multiple spaces
+        except Exception as e:
+            logger.critical(e)
+            return config.DEFAULT_FOR_EMPTY
 
     def __get_info(self) -> str:
         result = self.__soup.find("div", {"class": "j-d-desc"})
-        return result.text
+        try:
+            return result.text
+        except Exception as e:
+            logger.critical(e)
+            return config.DEFAULT_FOR_EMPTY
 
     def __get_contacts(self) -> str:
 
