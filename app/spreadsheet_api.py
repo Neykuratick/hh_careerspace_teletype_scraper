@@ -1,4 +1,6 @@
 import os
+import logging
+import time
 from typing import Any
 
 from google.auth.transport.requests import Request
@@ -6,9 +8,13 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from gspread import authorize
+from gspread.exceptions import APIError
 
 from app.models import Columns
 from config import config
+
+logger = logging.getLogger(' SPREADSHEETS ')
+logger.setLevel(level=config.LOGGING_LEVEL)
 
 
 def Create_Service(client_secret_file, api_service_name, api_version, scopes):
@@ -81,17 +87,22 @@ class Sheet:
         self.__worksheet.delete_row(index)
 
     def check_integrity(self) -> bool:
-        last_url_row_index = len(self.__worksheet.col_values(self.columns.url))
+        try:
+            last_url_row_index = len(self.__worksheet.col_values(self.columns.url))
 
-        for column_index, column in enumerate(self.__worksheet.row_values(1)):
-            actual_column_index = column_index + 1
-            last_row_index = len(self.__worksheet.col_values(actual_column_index))
+            for column_index, column in enumerate(self.__worksheet.row_values(1)):
+                actual_column_index = column_index + 1
+                last_row_index = len(self.__worksheet.col_values(actual_column_index))
 
-            if last_row_index < last_url_row_index:
-                self.delete_row(last_url_row_index)
-                if self.check_integrity():
-                    return True
-                else:
-                    return False
+                if last_row_index < last_url_row_index:
+                    self.delete_row(last_url_row_index)
+                    if self.check_integrity():
+                        return True
+                    else:
+                        return False
+        except APIError as e:
+            logger.warning(e)
+            time.sleep(61)
+            self.check_integrity()
 
         return True
