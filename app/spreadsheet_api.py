@@ -87,14 +87,15 @@ class Sheet:
         self.__worksheet.delete_row(index)
 
     def check_integrity(self) -> bool:
-        last_url_row_index = len(self.__worksheet.col_values(self.columns.url))
+        last_sheet_row_index = len(self.__worksheet.col_values(self.columns.date_added))
 
         for column_index, column in enumerate(self.__worksheet.row_values(1)):
             actual_column_index = column_index + 1
             last_row_index = len(self.__worksheet.col_values(actual_column_index))
-            logger.debug(f"last row: {last_url_row_index}; last row of {column}: {last_row_index}")
-            if last_row_index < last_url_row_index:
-                self.delete_row(last_url_row_index)
+
+            logger.debug(f"last row: {last_sheet_row_index}; last row of {column}: {last_row_index}")
+            if last_sheet_row_index > last_row_index > 1 and last_sheet_row_index > 1:
+                self.delete_row(last_sheet_row_index)
                 if self.check_integrity():
                     return True
                 else:

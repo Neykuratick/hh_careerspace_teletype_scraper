@@ -7,11 +7,11 @@ from config import config
 
 class Vacancy(BaseModel):
     url: str
-    name: str
-    info: str
-    full_text: str
-    contacts: Optional[str]
-    salary: Optional[str]
+    name: Optional[str] = Field(default=config.DEFAULT_FOR_EMPTY)
+    info: Optional[str] = Field(default=config.DEFAULT_FOR_EMPTY)
+    full_text: Optional[str] = Field(default=config.DEFAULT_FOR_EMPTY)
+    contacts: Optional[str] = Field(default=config.DEFAULT_FOR_EMPTY)
+    salary: Optional[str] = Field(default=config.DEFAULT_FOR_EMPTY)
 
     class Config:
         validate_assignment = True

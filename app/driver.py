@@ -23,13 +23,13 @@ def upload_to_spreadsheet(vacancy: Vacancy, sheet: Sheet):
     last_row = -1
     timestamp = (datetime.now(tz=pytz.timezone("Europe/Moscow"))).strftime("%Y.%m.%d, %H:%M")
     try:
+        last_row = sheet.append_column(sheet.columns.date_added, timestamp)
         last_row = sheet.append_column(sheet.columns.url, vacancy.url)
         last_row = sheet.append_column(sheet.columns.name, vacancy.name)
         last_row = sheet.append_column(sheet.columns.info, vacancy.info)
         last_row = sheet.append_column(sheet.columns.full_text, vacancy.full_text)
         last_row = sheet.append_column(sheet.columns.contacts, vacancy.contacts)
         last_row = sheet.append_column(sheet.columns.salary, vacancy.salary)
-        last_row = sheet.append_column(sheet.columns.date_added, timestamp)
     except APIError as e:
         logger.warning(e)
         time.sleep(61)
