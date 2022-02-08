@@ -1,4 +1,6 @@
 import logging
+import time
+
 from config import config
 from app.driver import drive
 import schedule
@@ -15,4 +17,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(e)
+        time.sleep(61)

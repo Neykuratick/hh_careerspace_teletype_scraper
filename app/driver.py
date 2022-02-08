@@ -75,18 +75,19 @@ def drive_other(urls: List[str], sheet: Sheet):
 
 def drive():
     # for i in range(config.POSTS_COUNT):
+    print(config.POSTS_COUNT)
     for i in range(config.POSTS_COUNT -1, -1, -1):
         logger.info(f"Scraping post index: {i}")
 
         urls = get_post_urls(i)
         sheet = Sheet(config.SPREADSHEET_URL)
-        sheet.check_integrity()
-        # try:
-        #     sheet.check_integrity()
-        # except APIError as e:
-        #     logger.warning(e)
-        #     time.sleep(61)
-        #     sheet.check_integrity()
+
+        try:
+            sheet.check_integrity()
+        except APIError as e:
+            logger.warning(e)
+            time.sleep(61)
+            sheet.check_integrity()
 
         drive_careerspace(urls.careerspace, sheet)
         drive_hh(urls.hh, sheet)

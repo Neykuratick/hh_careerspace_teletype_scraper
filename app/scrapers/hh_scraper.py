@@ -36,5 +36,5 @@ class HeadHunter:
             info=info,
             full_text=info,
             contacts=contacts,
-            salary=salary
+            salary=int(salary) if str(salary).isdigit() else None
         )

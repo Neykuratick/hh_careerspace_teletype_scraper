@@ -87,22 +87,17 @@ class Sheet:
         self.__worksheet.delete_row(index)
 
     def check_integrity(self) -> bool:
-        try:
-            last_url_row_index = len(self.__worksheet.col_values(self.columns.url))
+        last_url_row_index = len(self.__worksheet.col_values(self.columns.url))
 
-            for column_index, column in enumerate(self.__worksheet.row_values(1)):
-                actual_column_index = column_index + 1
-                last_row_index = len(self.__worksheet.col_values(actual_column_index))
-
-                if last_row_index < last_url_row_index:
-                    self.delete_row(last_url_row_index)
-                    if self.check_integrity():
-                        return True
-                    else:
-                        return False
-        except APIError as e:
-            logger.warning(e)
-            time.sleep(61)
-            self.check_integrity()
+        for column_index, column in enumerate(self.__worksheet.row_values(1)):
+            actual_column_index = column_index + 1
+            last_row_index = len(self.__worksheet.col_values(actual_column_index))
+            logger.debug(f"last row: {last_url_row_index}; last row of {column}: {last_row_index}")
+            if last_row_index < last_url_row_index:
+                self.delete_row(last_url_row_index)
+                if self.check_integrity():
+                    return True
+                else:
+                    return False
 
         return True
