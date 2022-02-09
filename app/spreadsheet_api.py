@@ -90,10 +90,14 @@ class Sheet:
         last_sheet_row_index = len(self.__worksheet.col_values(self.columns.date_added))
 
         for column_index, column in enumerate(self.__worksheet.row_values(1)):
+            if column not in [inner_tuple[1] for inner_tuple in list(config)]:
+                continue
+
             actual_column_index = column_index + 1
             last_row_index = len(self.__worksheet.col_values(actual_column_index))
 
             logger.debug(f"last row: {last_sheet_row_index}; last row of {column}: {last_row_index}")
+
             if last_sheet_row_index > last_row_index > 1 and last_sheet_row_index > 1:
                 self.delete_row(last_sheet_row_index)
                 if self.check_integrity():
