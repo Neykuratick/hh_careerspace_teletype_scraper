@@ -40,37 +40,56 @@ def upload_to_spreadsheet(vacancy: Vacancy, sheet: Sheet):
 
 def drive_careerspace(urls: List[str], sheet: Sheet):
     for url in urls:
-        careerspace = CareerSpace(url)
-        vacancy = careerspace.get_vacancy()
-        upload_to_spreadsheet(vacancy, sheet)
+        try:
+            sheet.check_integrity()
+
+            careerspace = CareerSpace(url)
+            vacancy = careerspace.get_vacancy()
+            upload_to_spreadsheet(vacancy, sheet)
+        except Exception as e:
+            logger.critical(e)
 
 
 def drive_hh(urls: List[str], sheet: Sheet):
     for url in urls:
-        hh = HeadHunter(url)
-        vacancy = hh.get_vacancy()
-        upload_to_spreadsheet(vacancy, sheet)
+        try:
+            sheet.check_integrity()
+
+            hh = HeadHunter(url)
+            vacancy = hh.get_vacancy()
+            upload_to_spreadsheet(vacancy, sheet)
+        except Exception as e:
+            logger.critical(e)
 
 
 def drive_teletype(urls: List[str], sheet: Sheet):
     for url in urls:
-        teletype = Teletype(url)
-        vacancy = teletype.get_vacancy()
-        upload_to_spreadsheet(vacancy, sheet)
+        try:
+            sheet.check_integrity()
+
+            teletype = Teletype(url)
+            vacancy = teletype.get_vacancy()
+            upload_to_spreadsheet(vacancy, sheet)
+        except Exception as e:
+            logger.critical(e)
 
 
 def drive_other(urls: List[str], sheet: Sheet):
     for url in urls:
-        vacancy = Vacancy(
-            url=url,
-            name=config.DEFAULT_FOR_EMPTY,
-            info=config.DEFAULT_FOR_EMPTY,
-            full_text=config.DEFAULT_FOR_EMPTY,
-            contacts=config.DEFAULT_FOR_EMPTY,
-            salary=config.DEFAULT_FOR_EMPTY
-        )
+        try:
+            sheet.check_integrity()
+            vacancy = Vacancy(
+                url=url,
+                name=config.DEFAULT_FOR_EMPTY,
+                info=config.DEFAULT_FOR_EMPTY,
+                full_text=config.DEFAULT_FOR_EMPTY,
+                contacts=config.DEFAULT_FOR_EMPTY,
+                salary=config.DEFAULT_FOR_EMPTY
+            )
 
-        upload_to_spreadsheet(vacancy, sheet)
+            upload_to_spreadsheet(vacancy, sheet)
+        except Exception as e:
+            logger.critical(e)
 
 
 def drive():
@@ -78,16 +97,7 @@ def drive():
         logger.info(f"Scraping post index: {i}")
 
         urls = get_post_urls(i)
-
-        try:
-            sheet = Sheet(config.SPREADSHEET_URL)
-            sheet.check_integrity()
-        except APIError as e:
-            logger.warning(e)
-            time.sleep(61)
-
-            sheet = Sheet(config.SPREADSHEET_URL)
-            sheet.check_integrity()
+        sheet = Sheet(config.SPREADSHEET_URL)
 
         drive_careerspace(urls.careerspace, sheet)
         drive_hh(urls.hh, sheet)

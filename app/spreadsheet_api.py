@@ -59,8 +59,14 @@ class Sheet:
     def __init__(self, url: str):
         client = authorize(creds)
         spreadsheet = client.open_by_url(url)
-        self.__worksheet = spreadsheet.get_worksheet(0)
-        self.columns = self.__get_columns()
+        try:
+            self.__worksheet = spreadsheet.get_worksheet(0)
+            self.columns = self.__get_columns()
+        except Exception as e:
+            logger.warning(e)
+            time.sleep(61)
+            self.__worksheet = spreadsheet.get_worksheet(0)
+            self.columns = self.__get_columns()
 
     def __get_columns(self) -> Columns:
         columns = {}
