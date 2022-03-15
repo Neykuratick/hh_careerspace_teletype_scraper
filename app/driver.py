@@ -48,6 +48,8 @@ def drive_careerspace(urls: List[str], sheet: Sheet):
             upload_to_spreadsheet(vacancy, sheet)
         except Exception as e:
             logger.critical(e)
+            time.sleep(61)
+            return drive_careerspace(urls, sheet)
 
 
 def drive_hh(urls: List[str], sheet: Sheet):
@@ -60,6 +62,8 @@ def drive_hh(urls: List[str], sheet: Sheet):
             upload_to_spreadsheet(vacancy, sheet)
         except Exception as e:
             logger.critical(e)
+            time.sleep(61)
+            return drive_hh(urls, sheet)
 
 
 def drive_teletype(urls: List[str], sheet: Sheet):
@@ -72,6 +76,8 @@ def drive_teletype(urls: List[str], sheet: Sheet):
             upload_to_spreadsheet(vacancy, sheet)
         except Exception as e:
             logger.critical(e)
+            time.sleep(61)
+            return drive_teletype(urls, sheet)
 
 
 def drive_other(urls: List[str], sheet: Sheet):
@@ -90,6 +96,8 @@ def drive_other(urls: List[str], sheet: Sheet):
             upload_to_spreadsheet(vacancy, sheet)
         except Exception as e:
             logger.critical(e)
+            time.sleep(61)
+            return drive_other(urls, sheet)
 
 
 def drive():
