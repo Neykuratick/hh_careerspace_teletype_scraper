@@ -7,11 +7,15 @@ logging.basicConfig(level=config.LOGGING_LEVEL)
 
 
 def main():
-    schedule.every(30).minutes.do(drive)
-    schedule.run_all(delay_seconds=10)
+    try:
+        schedule.every(30).minutes.do(drive)
+        schedule.run_all(delay_seconds=10)
 
-    while True:
-        schedule.run_pending()
+        while True:
+            schedule.run_pending()
+    except Exception as e:
+        print(f'ERROR: {e}')
+        return main()
 
 
 if __name__ == "__main__":

@@ -95,7 +95,9 @@ class Sheet:
     def check_integrity(self) -> bool:
         last_sheet_row_index = len(self.__worksheet.col_values(self.columns.date_added))
 
-        for column_index, column in enumerate(self.__worksheet.row_values(1)):
+        values = self.__worksheet.row_values(1)
+
+        for column_index, column in enumerate(values):
             if column not in [inner_tuple[1] for inner_tuple in list(config)]:
                 continue
 
@@ -106,9 +108,13 @@ class Sheet:
 
             if last_sheet_row_index > last_row_index > 1 and last_sheet_row_index > 1:
                 self.delete_row(last_sheet_row_index)
-                if self.check_integrity():
-                    return True
-                else:
-                    return False
+                try:
+                    if self.check_integrity():
+                        return True
+                    else:
+                        return False
+                except Exception as e:
+                    print(f'ERROR: {e}')
+                    return self.check_integrity()
 
         return True
