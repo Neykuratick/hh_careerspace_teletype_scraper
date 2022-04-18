@@ -5,7 +5,7 @@ from typing import Optional, List, Dict
 import requests
 from datetime import datetime
 
-from app.models import UrlList
+from app.models import UrlList, Vacancy
 from config import config
 
 logger = logging.getLogger(' UTILS ')
@@ -73,3 +73,23 @@ def get_post_urls(post_index: int = 0) -> UrlList:
         hh=hh_list,
         other=other_list
     )
+
+
+def telegram_broadcast(message: str):
+    requests.get(
+        "https://api.telegram.org/"
+        f"bot{config.TELEGRAM_TOKEN}/"
+        f"sendMessage?chat_id=@{config.TELEGRAM_CHANNEL_NAME}"
+        f"&text={message}"
+    )
+
+
+def stringify(vacancy: Vacancy):
+    message = f"Название: {vacancy.name}\n\n"
+    message += f"Зарплата: {vacancy.salary}\n\n"
+    message += f"Контакты: {vacancy.contacts}\n\n"
+    message += f"Описание: {vacancy.full_text}\n\n"
+    message += f"Ссылка: {vacancy.url}"
+
+    return message
+

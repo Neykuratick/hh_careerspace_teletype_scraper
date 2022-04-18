@@ -12,12 +12,9 @@ logger.setLevel(level=config.LOGGING_LEVEL)
 
 
 class CareerSpace:
-    def __init__(self, url: str):
-        logger.debug(f"Processing url: {url}")
-        request_result = requests.get(url)
-
-        self.__soup = BeautifulSoup(request_result.text, 'html.parser')
-        self.__url = url
+    def __init__(self):
+        self.__soup = None
+        self.__url = None
 
     def __get_salary(self) -> str:
         result = self.__soup.find("span", {"class": "price"})
@@ -79,7 +76,13 @@ class CareerSpace:
 
             return contact[:-2]
 
-    def get_vacancy(self) -> Vacancy:
+    def get_vacancy(self, url: str) -> Vacancy:
+        logger.debug(f"Processing url: {url}")
+        request_result = requests.get(url)
+
+        self.__soup = BeautifulSoup(request_result.text, 'html.parser')
+        self.__url = url
+
         name = self.__get_name()
         info = self.__get_info()
         contacts = self.__get_contacts()

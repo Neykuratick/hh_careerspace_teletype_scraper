@@ -7,3 +7,4 @@ prod.docker-compose.yml
 local.docker-compose.yml
 secret
 .env_settings
+.env

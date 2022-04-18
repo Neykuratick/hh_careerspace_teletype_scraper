@@ -11,6 +11,9 @@ class Config(BaseSettings):
     POSTS_COUNT: Optional[int] = Field(default=50)
     LAST_POST_ID: Optional[int] = Field(default=None)  # Айди последнего нужного поста в группе
 
+    TELEGRAM_CHANNEL_NAME: str
+    TELEGRAM_TOKEN: str
+
     COLUMN_ALIAS_URL: Optional[str] = Field(default='url')
     COLUMN_ALIAS_NAME: Optional[str] = Field(default='name')
     COLUMN_ALIAS_INFO: Optional[str] = Field(default='info')

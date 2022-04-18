@@ -11,13 +11,9 @@ logger.setLevel(level=config.LOGGING_LEVEL)
 
 
 class Teletype:
-    def __init__(self, url: str):
-        logger.debug(f"Processing url: {url}")
-        request_result = requests.get(url)
-        request_result.encoding = "utf-8"
-
-        self.__soup = BeautifulSoup(request_result.text, 'html.parser')
-        self.__url = url
+    def __init__(self):
+        self.__soup = None
+        self.__url = None
 
     def __get_info(self):
         # text = ""
@@ -49,7 +45,15 @@ class Teletype:
 
         return contacts
 
-    def get_vacancy(self):
+    def get_vacancy(self, url: str):
+        logger.debug(f"Processing url: {url}")
+
+        request_result = requests.get(url)
+        request_result.encoding = "utf-8"
+
+        self.__soup = BeautifulSoup(request_result.text, 'html.parser')
+        self.__url = url
+
         name = self.__soup.find('title').text
         info = self.__get_info()
         contacts = self.__get_contacts()

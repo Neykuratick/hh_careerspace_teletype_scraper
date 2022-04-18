@@ -12,19 +12,21 @@ logger.setLevel(level=config.LOGGING_LEVEL)
 
 
 class HeadHunter:
-    def __init__(self, url: str):
-        logger.debug(f"Processing url: {url}")
-
-        vacancy_id = re.findall("[0-9]+", url.split("vacancy/")[1])[0]
-        self.__vacancy_json = requests.get(f"https://api.hh.ru/vacancies/{vacancy_id}").json()
-        self.__url = url
+    def __init__(self):
+        self.__vacancy_json = None
+        self.__url = None
 
     def __get_info(self) -> str:
         html = self.__vacancy_json.get("description")
         soup = BeautifulSoup(html, 'html.parser')
         return soup.text
 
-    def get_vacancy(self) -> Vacancy:
+    def get_vacancy(self, url: str) -> Vacancy:
+        logger.debug(f"Processing url: {url}")
+        vacancy_id = re.findall("[0-9]+", url.split("vacancy/")[1])[0]
+        self.__vacancy_json = requests.get(f"https://api.hh.ru/vacancies/{vacancy_id}").json()
+        self.__url = url
+
         name = self.__vacancy_json.get("name")
         info = self.__get_info()
         contacts = self.__vacancy_json.get("contacts")
