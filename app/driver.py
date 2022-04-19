@@ -36,7 +36,10 @@ def drive():
         )
 
         for driver in drivers:
-            execute_driver(driver.urls, driver.driver)
+            try:
+                execute_driver(driver.urls, driver.driver)
+            except Exception as e:
+                telegram_broadcast(f'{driver.driver.name} Произошла ошибка: {e}')
 
     logger.info("Done scraping")
 

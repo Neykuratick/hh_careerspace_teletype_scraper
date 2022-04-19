@@ -15,6 +15,7 @@ class HeadHunter:
     def __init__(self):
         self.__vacancy_json = None
         self.__url = None
+        self.name = 'HeadHunter'
 
     def __get_info(self) -> str:
         html = self.__vacancy_json.get("description")

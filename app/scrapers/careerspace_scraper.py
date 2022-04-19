@@ -15,6 +15,7 @@ class CareerSpace:
     def __init__(self):
         self.__soup = None
         self.__url = None
+        self.name = 'CareerSpace'
 
     def __get_salary(self) -> str:
         result = self.__soup.find("span", {"class": "price"})

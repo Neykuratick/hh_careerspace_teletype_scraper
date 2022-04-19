@@ -14,6 +14,7 @@ class Teletype:
     def __init__(self):
         self.__soup = None
         self.__url = None
+        self.name = 'Teletype'
 
     def __get_info(self):
         # text = ""
